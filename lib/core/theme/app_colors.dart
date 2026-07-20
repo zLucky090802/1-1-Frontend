@@ -31,4 +31,18 @@ class AppColors {
   static const Color inputBorder = Color(0xFFE1DEDA);
   static const Color inputHint = Color(0xFFB0ADA8);
   static const Color inputIcon = Color(0xFF9C9994);
+
+  // ---- Home ----
+  // Fondo general de la pantalla Home (crema muy claro).
+  static const Color homeBackground = Color(0xFFF7F6F3);
+
+  // Card "Start your learning journey".
+  static const Color heroCard = Color(0xFFF0A385);
+
+  // Card de estado vacío "Our expert community is growing!".
+  static const Color emptyStateCard = Color(0xFFE7E6EF);
+  static const Color emptyStateText = Color(0xFF5F5E67);
+
+  // Avatar placeholder cuando no hay foto de usuario.
+  static const Color avatarPlaceholder = Color(0xFFD8D6D0);
 }
