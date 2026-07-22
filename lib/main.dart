@@ -1,3 +1,4 @@
+import 'package:advisersapp/core/widgets/main_layout.dart';
 import 'package:flutter/material.dart';
 import 'features/auth/presentation/screens/register_screen.dart';
 import 'features/auth/presentation/screens/login_screen.dart';
@@ -23,6 +24,7 @@ class AsesoriaApp extends StatelessWidget {
         '/login': (_) => const LoginScreen(),
         '/register': (_) => const RegisterScreen(),
         // '/home': (_) => const HomeScreen(), // TODO: implementar según HOME_REQUIREMENTS.md
+        '/home':(_) => const MainLayout()
       },
     );
   }

@@ -121,15 +121,7 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               // Bottom nav flotante.
-              Positioned(
-                left: 20,
-                right: 20,
-                bottom: 20,
-                child: FloatingBottomNav(
-                  currentIndex: _navIndex,
-                  onTap: (index) => setState(() => _navIndex = index),
-                ),
-              ),
+              
             ],
           );
 

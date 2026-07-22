@@ -1,6 +1,7 @@
+import 'package:advisersapp/core/widgets/main_layout.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-
+import '../../../home/home_screen.dart';
 import '../../../../core/widgets/responsive_auth_scaffold.dart';
 import '../../../../core/theme/app_colors.dart';
 import '../../../../core/widgets/custom_button.dart';
@@ -105,7 +106,14 @@ class _LoginScreenState extends State<LoginScreen> {
                   ),
                   const SizedBox(height: 10),
 
-                  CustomButton(label: 'Login', onPressed: _handleLogin),
+                  CustomButton(
+                    label: 'Login',
+                    onPressed: () {
+                      Navigator.of(context).push(
+                        MaterialPageRoute(builder: (_) => const MainLayout()),
+                      );
+                    },
+                  ),
                   const SizedBox(height: 20),
                   const AuthDivider(),
                   const SizedBox(height: 20),
