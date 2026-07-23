@@ -1,3 +1,4 @@
+import 'package:advisersapp/features/profile/profile_screen.dart';
 import 'package:flutter/material.dart';
 import '../../features/home/home_screen.dart';
 import '../../features/search/search_screen.dart'; // Importa tu nueva pantalla
@@ -18,7 +19,7 @@ class _MainLayoutState extends State<MainLayout> {
   final List<Widget> _screens = [
     const HomeScreen(),
     const SearchScreen(),
-    const Center(child: Text("Profile Screen")), // Placeholder para el perfil
+    const ProfileScreen(), // Placeholder para el perfil
   ];
 
   @override

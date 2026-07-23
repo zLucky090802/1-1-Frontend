@@ -7,10 +7,9 @@ class ProfileScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        // 1. Aplicamos la imagen de fondo con cobertura total
         decoration: const BoxDecoration(
           image: DecorationImage(
-            image: AssetImage('assets/images/orangebg.png'),
+            image: AssetImage('assets/images/orangebg.webp'),
             fit: BoxFit.cover,
           ),
         ),
@@ -20,7 +19,6 @@ class ProfileScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Header: Botón de retroceso y Título
                 Row(
                   children: [
                     Container(
@@ -52,8 +50,6 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 24),
-
-                // Tarjeta Principal de Usuario
                 Container(
                   width: double.infinity,
                   padding: const EdgeInsets.all(20),
@@ -117,8 +113,6 @@ class ProfileScreen extends StatelessWidget {
                   ),
                 ),
                 const SizedBox(height: 20),
-
-                // Grupo 1: Configuración de Cuenta
                 _ProfileCardGroup(
                   items: [
                     _ProfileMenuItem(icon: Icons.language, title: 'Language', onTap: () {}),
@@ -127,8 +121,6 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-
-                // Grupo 2: Preferencias y Opciones de App
                 _ProfileCardGroup(
                   items: [
                     _ProfileMenuItem(icon: Icons.tune, title: 'Preferences', onTap: () {}),
@@ -138,8 +130,6 @@ class ProfileScreen extends StatelessWidget {
                   ],
                 ),
                 const SizedBox(height: 20),
-
-                // Botón de Cerrar Sesión (Log out)
                 _ProfileCardGroup(
                   items: [
                     _ProfileMenuItem(
@@ -148,15 +138,12 @@ class ProfileScreen extends StatelessWidget {
                       textColor: Colors.red,
                       iconColor: Colors.red,
                       showChevron: false,
-                      onTap: () {
-                        // Lógica de cerrar sesión
-                      },
+                      centerContent: true,
+                      onTap: () {},
                     ),
                   ],
                 ),
                 const SizedBox(height: 24),
-
-                // Versión de la App
                 const Center(
                   child: Text(
                     'App Version\n(v1.0.0)',
@@ -178,8 +165,6 @@ class ProfileScreen extends StatelessWidget {
     );
   }
 }
-
-// Componentes reutilizables para mantener la limpieza del código (Feature-First)
 
 class _ProfileCardGroup extends StatelessWidget {
   final List<Widget> items;
@@ -214,6 +199,7 @@ class _ProfileMenuItem extends StatelessWidget {
   final Color textColor;
   final Color iconColor;
   final bool showChevron;
+  final bool centerContent;
 
   const _ProfileMenuItem({
     required this.icon,
@@ -222,6 +208,7 @@ class _ProfileMenuItem extends StatelessWidget {
     this.textColor = const Color(0xFF1A1A1A),
     this.iconColor = const Color(0xFF1A1A1A),
     this.showChevron = true,
+    this.centerContent = false, // <-- Declarado aquí correctamente
   });
 
   @override
@@ -234,20 +221,31 @@ class _ProfileMenuItem extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
           child: Row(
+            mainAxisAlignment: centerContent ? MainAxisAlignment.center : MainAxisAlignment.start,
             children: [
               Icon(icon, color: iconColor, size: 22),
               const SizedBox(width: 16),
-              Expanded(
-                child: Text(
+              if (centerContent)
+                Text(
                   title,
                   style: TextStyle(
                     fontSize: 15,
                     fontWeight: FontWeight.w500,
                     color: textColor,
                   ),
+                )
+              else
+                Expanded(
+                  child: Text(
+                    title,
+                    style: TextStyle(
+                      fontSize: 15,
+                      fontWeight: FontWeight.w500,
+                      color: textColor,
+                    ),
+                  ),
                 ),
-              ),
-              if (showChevron)
+              if (showChevron && !centerContent)
                 const Icon(
                   Icons.arrow_forward_ios_rounded,
                   size: 14,
