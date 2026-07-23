@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_payment_card.dart';
+import '../widgets/get_payment_icon.dart';
 
 class PaymentMethodsScreen extends StatefulWidget {
   const PaymentMethodsScreen({super.key});
@@ -11,7 +12,7 @@ class PaymentMethodsScreen extends StatefulWidget {
 class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
   // Simulamos los estados: lista con elementos o vacía [] para probar ambos diseños
   List<Map<String, String>> savedCards = [
-    {"type": "MasterCard", "number": "****0690", "expiry": "05/2023"}
+    {"type": "MasterCard", "number": "****0690", "expiry": "05/2023"},
   ];
 
   @override
@@ -29,7 +30,11 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
           child: CircleAvatar(
             backgroundColor: Colors.white,
             child: IconButton(
-              icon: const Icon(Icons.arrow_back_ios_new, color: Color(0xFF4A3C38), size: 18),
+              icon: const Icon(
+                Icons.arrow_back_ios_new,
+                color: Color(0xFF4A3C38),
+                size: 18,
+              ),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -44,7 +49,10 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
         ),
       ),
       body: Padding(
-        padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.05, vertical: 20),
+        padding: EdgeInsets.symmetric(
+          horizontal: screenWidth * 0.05,
+          vertical: 20,
+        ),
         child: isEmpty ? _buildEmptyStateView() : _buildFilledStateView(),
       ),
     );
@@ -55,9 +63,17 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
     return Column(
       children: [
         CustomPaymentCard(
-          icon: const Icon(Icons.credit_card, color: Color(0xFF4A3C38), size: 24),
+          icon: const Icon(
+            Icons.credit_card,
+            color: Color(0xFF4A3C38),
+            size: 24,
+          ),
           title: "Credit & Debit Card",
-          trailingIcon: const Icon(Icons.add, color: Color(0xFF4A3C38), size: 22),
+          trailingIcon: const Icon(
+            Icons.add,
+            color: Color(0xFF4A3C38),
+            size: 22,
+          ),
           onTap: () {
             // Aquí enlazaras la navegación a tu pantalla de formulario de tarjeta cuando la crees
             // Ej: Navigator.push(context, MaterialPageRoute(builder: (context) => const AddCardFormScreen()));
@@ -65,9 +81,17 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
         ),
         const SizedBox(height: 16),
         CustomPaymentCard(
-          icon: const Icon(Icons.g_mobiledata, color: Color(0xFF4A3C38), size: 32),
+          icon: const Icon(
+            Icons.g_mobiledata,
+            color: Color(0xFF4A3C38),
+            size: 32,
+          ),
           title: "Google Pay",
-          trailingIcon: const Icon(Icons.add, color: Color(0xFF4A3C38), size: 22),
+          trailingIcon: const Icon(
+            Icons.add,
+            color: Color(0xFF4A3C38),
+            size: 22,
+          ),
           onTap: () {
             // Lógica o navegación específica para Google Pay
           },
@@ -76,7 +100,11 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
         CustomPaymentCard(
           icon: const Icon(Icons.paypal, color: Color(0xFF4A3C38), size: 24),
           title: "Paypal",
-          trailingIcon: const Icon(Icons.add, color: Color(0xFF4A3C38), size: 22),
+          trailingIcon: const Icon(
+            Icons.add,
+            color: Color(0xFF4A3C38),
+            size: 22,
+          ),
           onTap: () {
             // Lógica o navegación específica para PayPal
           },
@@ -94,13 +122,19 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
             itemCount: savedCards.length,
             itemBuilder: (context, index) {
               final card = savedCards[index];
+              final cardType = card['type']!;
               return Padding(
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: CustomPaymentCard(
-                  icon: const Icon(Icons.credit_card, color: Color(0xFF4A3C38), size: 28),
+                  icon: getPaymentIcon(cardType),
                   title: card["type"]!,
-                  subtitle: "Payment method ending ${card["number"]!.substring(card["number"]!.length - 4)}",
-                  trailingIcon: const Icon(Icons.arrow_forward_ios, size: 16, color: Colors.grey),
+                  subtitle:
+                      "Payment method ending ${card["number"]!.substring(card["number"]!.length - 4)}",
+                  trailingIcon: const Icon(
+                    Icons.arrow_forward_ios,
+                    size: 16,
+                    color: Colors.grey,
+                  ),
                   onTap: () {
                     // Acción al hacer tap sobre una tarjeta guardada específica
                   },

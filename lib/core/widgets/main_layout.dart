@@ -10,43 +10,38 @@ class MainLayout extends StatefulWidget {
   @override
   State<MainLayout> createState() => _MainLayoutState();
 }
-
 class _MainLayoutState extends State<MainLayout> {
-  // 1. Inicia en 0 (que corresponde al Home)
   int _currentIndex = 0;
 
-  // 2. Lista de pantallas correspondientes a cada ícono
   final List<Widget> _screens = [
     const HomeScreen(),
     const SearchScreen(),
-    const ProfileScreen(), // Placeholder para el perfil
+    const ProfileScreen(),
   ];
 
   @override
   Widget build(BuildContext context) {
+    // Si estamos en el perfil (índice 2), ocultamos la barra flotante
+    final bool showNavBar = _currentIndex != 2;
+
     return Scaffold(
-      // extendBody hace que el contenido de las pantallas baje hasta el fondo,
-      // quedando por "debajo" de la barra flotante (ideal para listas largas).
-      extendBody: true, 
-      
-      // 3. Muestra la pantalla correspondiente al índice actual
+      extendBody: true,
       body: _screens[_currentIndex],
-      
-      // 4. Ubica tu barra flotante en la parte inferior
-      bottomNavigationBar: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
-          child: FloatingBottomNav(
-            currentIndex: _currentIndex,
-            onTap: (index) {
-              // 5. Actualiza el estado al hacer clic
-              setState(() {
-                _currentIndex = index;
-              });
-            },
-          ),
-        ),
-      ),
+      bottomNavigationBar: showNavBar
+          ? SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.only(left: 24, right: 24, bottom: 24),
+                child: FloatingBottomNav(
+                  currentIndex: _currentIndex,
+                  onTap: (index) {
+                    setState(() {
+                      _currentIndex = index;
+                    });
+                  },
+                ),
+              ),
+            )
+          : null, // <-- Desaparece la barra al estar en el perfil
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import '../payment/screens/payment_methods_screen.dart';
+import '../../core/widgets/main_layout.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -15,7 +17,10 @@ class ProfileScreen extends StatelessWidget {
         ),
         child: SafeArea(
           child: SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 12.0),
+            padding: const EdgeInsets.symmetric(
+              horizontal: 20.0,
+              vertical: 12.0,
+            ),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -34,8 +39,19 @@ class ProfileScreen extends StatelessWidget {
                         ],
                       ),
                       child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new, size: 18, color: Color(0xFF4A3C38)),
-                        onPressed: () => Navigator.pop(context),
+                        icon: const Icon(
+                          Icons.arrow_back_ios_new,
+                          size: 18,
+                          color: Color(0xFF4A3C38),
+                        ),
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const MainLayout(),
+                            ),
+                          );
+                        },
                       ),
                     ),
                     const SizedBox(width: 16),
@@ -68,7 +84,9 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       CircleAvatar(
                         radius: 40,
-                        backgroundImage: const AssetImage('assets/images/profile_pic.png'),
+                        backgroundImage: const AssetImage(
+                          'assets/images/profile_pic.png',
+                        ),
                         backgroundColor: Colors.grey[200],
                       ),
                       const SizedBox(height: 12),
@@ -83,10 +101,7 @@ class ProfileScreen extends StatelessWidget {
                       const SizedBox(height: 4),
                       const Text(
                         'd.espitia15@gmail.com',
-                        style: TextStyle(
-                          fontSize: 14,
-                          color: Colors.grey,
-                        ),
+                        style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                       const SizedBox(height: 16),
                       SizedBox(
@@ -115,18 +130,53 @@ class ProfileScreen extends StatelessWidget {
                 const SizedBox(height: 20),
                 _ProfileCardGroup(
                   items: [
-                    _ProfileMenuItem(icon: Icons.language, title: 'Language', onTap: () {}),
-                    _ProfileMenuItem(icon: Icons.monetization_on_outlined, title: 'Currencies', onTap: () {}),
-                    _ProfileMenuItem(icon: Icons.credit_card, title: 'Payments Methods', onTap: () {}),
+                    _ProfileMenuItem(
+                      icon: Icons.language,
+                      title: 'Language',
+                      onTap: () {},
+                    ),
+                    _ProfileMenuItem(
+                      icon: Icons.monetization_on_outlined,
+                      title: 'Currencies',
+                      onTap: () {},
+                    ),
+                    _ProfileMenuItem(
+                      icon: Icons.credit_card,
+                      title: 'Payments Methods',
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PaymentMethodsScreen(),
+                          ),
+                        );
+                      },
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
                 _ProfileCardGroup(
                   items: [
-                    _ProfileMenuItem(icon: Icons.tune, title: 'Preferences', onTap: () {}),
-                    _ProfileMenuItem(icon: Icons.history, title: 'History', onTap: () {}),
-                    _ProfileMenuItem(icon: Icons.notifications_none, title: 'Notifications', onTap: () {}),
-                    _ProfileMenuItem(icon: Icons.info_outline, title: 'Legal & Policies', onTap: () {}),
+                    _ProfileMenuItem(
+                      icon: Icons.tune,
+                      title: 'Preferences',
+                      onTap: () {},
+                    ),
+                    _ProfileMenuItem(
+                      icon: Icons.history,
+                      title: 'History',
+                      onTap: () {},
+                    ),
+                    _ProfileMenuItem(
+                      icon: Icons.notifications_none,
+                      title: 'Notifications',
+                      onTap: () {},
+                    ),
+                    _ProfileMenuItem(
+                      icon: Icons.info_outline,
+                      title: 'Legal & Policies',
+                      onTap: () {},
+                    ),
                   ],
                 ),
                 const SizedBox(height: 20),
@@ -185,9 +235,7 @@ class _ProfileCardGroup extends StatelessWidget {
           ),
         ],
       ),
-      child: Column(
-        children: items,
-      ),
+      child: Column(children: items),
     );
   }
 }
@@ -221,7 +269,9 @@ class _ProfileMenuItem extends StatelessWidget {
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 16.0),
           child: Row(
-            mainAxisAlignment: centerContent ? MainAxisAlignment.center : MainAxisAlignment.start,
+            mainAxisAlignment: centerContent
+                ? MainAxisAlignment.center
+                : MainAxisAlignment.start,
             children: [
               Icon(icon, color: iconColor, size: 22),
               const SizedBox(width: 16),
