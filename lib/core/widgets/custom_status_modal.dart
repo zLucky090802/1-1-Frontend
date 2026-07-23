@@ -41,7 +41,7 @@ class CustomStatusModal extends StatelessWidget {
               height: 100,
               decoration: BoxDecoration(
                 color: backgroundColor,
-                shape: BoxShape.circle
+                shape: BoxShape.circle,
               ),
               child: Icon(
                 isSuccess ? Icons.check_rounded : Icons.close_rounded,
@@ -67,10 +67,7 @@ class CustomStatusModal extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: const TextStyle(
-                color: Colors.grey,
-                fontSize: 14,
-              ),
+              style: const TextStyle(color: Colors.grey, fontSize: 14),
             ),
 
             const SizedBox(height: 32),
@@ -79,8 +76,7 @@ class CustomStatusModal extends StatelessWidget {
               width: double.infinity,
               height: 45,
               child: ElevatedButton(
-                
-               style: ElevatedButton.styleFrom(
+                style: ElevatedButton.styleFrom(
                   backgroundColor: primaryColor,
                   shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(14.0),
@@ -96,15 +92,11 @@ class CustomStatusModal extends StatelessWidget {
                     fontWeight: FontWeight.w600,
                   ),
                 ),
-
-                
               ),
-
-            )
-
+            ),
           ],
         ),
       ),
-    )
+    );
   }
 }
