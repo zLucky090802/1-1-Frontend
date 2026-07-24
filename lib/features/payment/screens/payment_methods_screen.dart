@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/custom_payment_card.dart';
 import '../widgets/get_payment_icon.dart';
-
+import '../screens/add_card_form_screen.dart';
 class PaymentMethodsScreen extends StatefulWidget {
   const PaymentMethodsScreen({super.key});
 
@@ -135,8 +135,28 @@ class _PaymentMethodsScreenState extends State<PaymentMethodsScreen> {
                     size: 16,
                     color: Colors.grey,
                   ),
-                  onTap: () {
-                    // Acción al hacer tap sobre una tarjeta guardada específica
+                  onTap: () async {
+                    final result = await Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => AddCardFormScreen(
+                          cardData: card,
+                        ), // Pasamos los datos existentes
+                      ),
+                    );
+
+                    if (result != null) {
+                      setState(() {
+                        if (result['action'] == 'delete') {
+                          savedCards.removeAt(
+                            index,
+                          ); // Eliminamos si se solicitó
+                        } else {
+                          savedCards[index] =
+                              result; // Actualizamos los datos editados
+                        }
+                      });
+                    }
                   },
                 ),
               );

@@ -1,18 +1,29 @@
 import 'package:flutter/material.dart';
 
 class AddCardFormScreen extends StatefulWidget {
-  const AddCardFormScreen({super.key});
+  // Parámetro opcional: si viene lleno, es para editar/ver; si es null, es para agregar
+  final Map<String, String>? cardData;
+
+  const AddCardFormScreen({super.key, this.cardData});
 
   @override
   State<AddCardFormScreen> createState() => _AddCardFormScreenState();
 }
 
 class _AddCardFormScreenState extends State<AddCardFormScreen> {
-  // 1. Declaración de controladores y la llave del formulario
   final _formKey = GlobalKey<FormState>();
-  final _cardNumberController = TextEditingController();
-  final _expiryDateController = TextEditingController();
-  final _cvvController = TextEditingController();
+  late final TextEditingController _cardNumberController;
+  late final TextEditingController _expiryDateController;
+  late final TextEditingController _cvvController;
+
+  @override
+  void initState() {
+    super.initState();
+    // Inicializamos los controladores. Si recibimos datos, los rellenamos (modo edición/detalle)
+    _cardNumberController = TextEditingController(text: widget.cardData?['number'] ?? '');
+    _expiryDateController = TextEditingController(text: widget.cardData?['expiry'] ?? '');
+    _cvvController = TextEditingController(text: widget.cardData?['cvv'] ?? '');
+  }
 
   @override
   void dispose() {
@@ -24,38 +35,54 @@ class _AddCardFormScreenState extends State<AddCardFormScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isEditing = widget.cardData != null;
+
     return Scaffold(
       backgroundColor: Colors.white,
       body: SafeArea(
         child: SingleChildScrollView(
           padding: const EdgeInsets.symmetric(horizontal: 24.0, vertical: 16.0),
           child: Form(
-            key: _formKey, // Vinculación correcta del GlobalKey
+            key: _formKey,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                // Cabecera: Botón de retroceso y Título
+                // Cabecera dinámica
                 Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Container(
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(color: Colors.grey.shade300),
-                      ),
-                      child: IconButton(
-                        icon: const Icon(Icons.arrow_back_ios_new, size: 18),
-                        onPressed: () => Navigator.pop(context),
-                      ),
+                    Row(
+                      children: [
+                        Container(
+                          decoration: BoxDecoration(
+                            shape: BoxShape.circle,
+                            border: Border.all(color: Colors.grey.shade300),
+                          ),
+                          child: IconButton(
+                            icon: const Icon(Icons.arrow_back_ios_new, size: 18),
+                            onPressed: () => Navigator.pop(context),
+                          ),
+                        ),
+                        const SizedBox(width: 16),
+                        Text(
+                          isEditing ? 'Card Details' : 'Add Payment',
+                          style: const TextStyle(
+                            fontSize: 22,
+                            fontWeight: FontWeight.bold,
+                            color: Colors.black87,
+                          ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(width: 16),
-                    const Text(
-                      'Add Payment',
-                      style: TextStyle(
-                        fontSize: 22,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.black87,
+                    // Si está editando, podemos mostrar un botón de eliminar opcional
+                    if (isEditing)
+                      IconButton(
+                        icon: const Icon(Icons.delete_outline, color: Colors.red),
+                        onPressed: () {
+                          // Lógica para eliminar la tarjeta y hacer pop con resultado
+                          Navigator.pop(context, {'action': 'delete'});
+                        },
                       ),
-                    ),
                   ],
                 ),
                 const SizedBox(height: 32),
@@ -63,11 +90,7 @@ class _AddCardFormScreenState extends State<AddCardFormScreen> {
                 // Campo: Card Number
                 const Text(
                   'Card Number',
-                  style: TextStyle(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.black87,
-                  ),
+                  style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black87),
                 ),
                 const SizedBox(height: 8),
                 TextFormField(
@@ -79,10 +102,7 @@ class _AddCardFormScreenState extends State<AddCardFormScreen> {
                     prefixIcon: const Icon(Icons.credit_card, color: Colors.black87),
                     filled: true,
                     fillColor: Colors.grey.shade100,
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                      borderSide: BorderSide.none,
-                    ),
+                    border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                     contentPadding: const EdgeInsets.symmetric(vertical: 16),
                   ),
                 ),
@@ -97,26 +117,18 @@ class _AddCardFormScreenState extends State<AddCardFormScreen> {
                         children: [
                           const Text(
                             'Date',
-                            style: TextStyle(
-                              fontSize: 14,
-                              fontWeight: FontWeight.w600,
-                              color: Colors.black87,
-                            ),
+                            style: TextStyle(fontSize: 14, fontWeight: FontWeight.w600, color: Colors.black87),
                           ),
                           const SizedBox(height: 8),
                           TextFormField(
                             controller: _expiryDateController,
-                            keyboardType: TextInputType.datetime, // Corregido sin errores
+                            keyboardType: TextInputType.datetime,
                             decoration: InputDecoration(
                               hintText: 'MM/AA',
                               hintStyle: TextStyle(color: Colors.grey.shade400),
-                              suffixIcon: const Icon(Icons.info_outline, color: Colors.grey, size: 20),
                               filled: true,
                               fillColor: Colors.grey.shade100,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide.none,
-                              ),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                             ),
                           ),
@@ -144,13 +156,9 @@ class _AddCardFormScreenState extends State<AddCardFormScreen> {
                             decoration: InputDecoration(
                               hintText: 'CVV',
                               hintStyle: TextStyle(color: Colors.grey.shade400),
-                              suffixIcon: const Icon(Icons.info_outline, color: Colors.grey, size: 20),
                               filled: true,
                               fillColor: Colors.grey.shade100,
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(12),
-                                borderSide: BorderSide.none,
-                              ),
+                              border: OutlineInputBorder(borderRadius: BorderRadius.circular(12), borderSide: BorderSide.none),
                               contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                             ),
                           ),
@@ -161,7 +169,7 @@ class _AddCardFormScreenState extends State<AddCardFormScreen> {
                 ),
                 const SizedBox(height: 40),
 
-                // Botón ADD
+                // Botón dinámico (ADD o SAVE)
                 SizedBox(
                   width: double.infinity,
                   height: 54,
@@ -169,47 +177,26 @@ class _AddCardFormScreenState extends State<AddCardFormScreen> {
                     style: ElevatedButton.styleFrom(
                       backgroundColor: Colors.black,
                       foregroundColor: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14),
-                      ),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
                       elevation: 0,
                     ),
                     onPressed: () {
                       if (_formKey.currentState!.validate()) {
-                        final cardNumber = _cardNumberController.text;
-                        final expiryDate = _expiryDateController.text;
-                        final cvv = _cvvController.text;
-                        
-                        // Depuración limpia de datos obtenidos
-                        debugPrint('Tarjeta: $cardNumber, Fecha: $expiryDate, CVV: $cvv');
+                        final cardDataResult = {
+                          'type': 'MasterCard', // Puedes hacerlo dinámico luego según el número
+                          'number': _cardNumberController.text,
+                          'expiry': _expiryDateController.text,
+                          'cvv': _cvvController.text,
+                        };
+                        // Retornamos los datos a la pantalla anterior
+                        Navigator.pop(context, cardDataResult);
                       }
                     },
-                    child: const Text(
-                      'ADD',
-                      style: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.bold,
-                        letterSpacing: 1,
-                      ),
+                    child: Text(
+                      isEditing ? 'SAVE CHANGES' : 'ADD',
+                      style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold, letterSpacing: 1),
                     ),
                   ),
-                ),
-                const SizedBox(height: 24),
-
-                // Footer de seguridad
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    const Icon(Icons.security, size: 16, color: Colors.black54),
-                    const SizedBox(width: 8),
-                    Text(
-                      'Your card information will be stored securely.',
-                      style: TextStyle(
-                        fontSize: 12,
-                        color: Colors.grey.shade600,
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
