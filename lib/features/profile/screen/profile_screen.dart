@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import '../payment/screens/payment_methods_screen.dart';
-import '../../core/widgets/main_layout.dart';
+import '../../payment/screens/payment_methods_screen.dart';
+import '../../../core/widgets/main_layout.dart';
+import '../screen/language_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -133,7 +134,14 @@ class ProfileScreen extends StatelessWidget {
                     _ProfileMenuItem(
                       icon: Icons.language,
                       title: 'Language',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(context, 
+                          MaterialPageRoute(
+                            builder: (context) => const LanguageScreen()
+                          )
+                        
+                        )
+                      },
                     ),
                     _ProfileMenuItem(
                       icon: Icons.monetization_on_outlined,

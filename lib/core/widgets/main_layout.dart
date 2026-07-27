@@ -1,4 +1,4 @@
-import 'package:advisersapp/features/profile/profile_screen.dart';
+import 'package:advisersapp/features/profile/screen/profile_screen.dart';
 import 'package:flutter/material.dart';
 import '../../features/home/home_screen.dart';
 import '../../features/search/search_screen.dart'; // Importa tu nueva pantalla
