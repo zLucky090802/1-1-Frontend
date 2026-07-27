@@ -50,14 +50,16 @@ class _LanguageScreenState extends State<LanguageScreen> {
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                   ),
-                  const SizedBox(width: 24),
+                  const SizedBox(width: 100),
                   const Text(
                     'Language',
+                    textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Color(0xFF2C1D11),
                       letterSpacing: -0.5,
+                      
                     ),
                   ),
                 ],

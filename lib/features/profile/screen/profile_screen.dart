@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import '../../payment/screens/payment_methods_screen.dart';
 import '../../../core/widgets/main_layout.dart';
 import '../screen/language_screen.dart';
+import '../screen/history_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -135,12 +136,12 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.language,
                       title: 'Language',
                       onTap: () {
-                        Navigator.push(context, 
+                        Navigator.push(
+                          context,
                           MaterialPageRoute(
-                            builder: (context) => const LanguageScreen()
-                          )
-                        
-                        )
+                            builder: (context) => const LanguageScreen(),
+                          ),
+                        );
                       },
                     ),
                     _ProfileMenuItem(
@@ -168,12 +169,21 @@ class ProfileScreen extends StatelessWidget {
                     _ProfileMenuItem(
                       icon: Icons.tune,
                       title: 'Preferences',
-                      onTap: () {},
+                      onTap: () {
+                        
+                      },
                     ),
                     _ProfileMenuItem(
                       icon: Icons.history,
                       title: 'History',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const HistoryScreen(),
+                          ),
+                        );
+                      },
                     ),
                     _ProfileMenuItem(
                       icon: Icons.notifications_none,
