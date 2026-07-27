@@ -4,6 +4,7 @@ import '../../../core/widgets/main_layout.dart';
 import '../screen/language_screen.dart';
 import '../screen/history_screen.dart';
 import '../screen/currencies_screen.dart';
+import '../screen/preferences_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -178,7 +179,12 @@ class ProfileScreen extends StatelessWidget {
                       icon: Icons.tune,
                       title: 'Preferences',
                       onTap: () {
-                        
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const PreferencesScreen(),
+                          ),
+                        );
                       },
                     ),
                     _ProfileMenuItem(
