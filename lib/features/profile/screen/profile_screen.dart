@@ -3,6 +3,7 @@ import '../../payment/screens/payment_methods_screen.dart';
 import '../../../core/widgets/main_layout.dart';
 import '../screen/language_screen.dart';
 import '../screen/history_screen.dart';
+import '../screen/currencies_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -147,7 +148,14 @@ class ProfileScreen extends StatelessWidget {
                     _ProfileMenuItem(
                       icon: Icons.monetization_on_outlined,
                       title: 'Currencies',
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const CurrencyScreen(),
+                          ),
+                        );
+                      },
                     ),
                     _ProfileMenuItem(
                       icon: Icons.credit_card,
@@ -185,11 +193,7 @@ class ProfileScreen extends StatelessWidget {
                         );
                       },
                     ),
-                    _ProfileMenuItem(
-                      icon: Icons.notifications_none,
-                      title: 'Notifications',
-                      onTap: () {},
-                    ),
+                   
                     _ProfileMenuItem(
                       icon: Icons.info_outline,
                       title: 'Legal & Policies',
