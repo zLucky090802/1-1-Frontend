@@ -33,8 +33,8 @@ class _PlanPageState extends State<PlanPage> {
   }
 
   final List<Map<String, dynamic>> _tasks = [
-    {'title': 'Guia nutricion', 'advisor': 'De Maria Rios', 'completed': false},
-    {'title': 'Caminar 30 min', 'advisor': 'De Maria Rios', 'completed': true},
+    {'title': 'Nutrition Guide', 'advisor': 'By Maria Rios', 'completed': false},
+    {'title': 'Walk 30 min', 'advisor': 'By Maria Rios', 'completed': true},
   ];
 
   @override
@@ -68,32 +68,16 @@ class _PlanPageState extends State<PlanPage> {
 
               const SizedBox(height: 24),
 
-              // 3. Sección: Mis Asesores
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Mis asesores',
-                      style: TextStyle(
-                        fontSize: 18,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF4A3C38),
-                      ),
-                    ),
-                    GestureDetector(
-                      onTap: () {},
-                      child: const Text(
-                        'see all',
-                        style: TextStyle(
-                          fontSize: 14,
-                          fontWeight: FontWeight.w600,
-                          color: Color(0xFFB29072),
-                        ),
-                      ),
-                    ),
-                  ],
+              // 3. Sección: My Advisors (Sin el "see all")
+              const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20),
+                child: Text(
+                  'My Advisors',
+                  style: TextStyle(
+                    fontSize: 18,
+                    fontWeight: FontWeight.bold,
+                    color: Color(0xFF4A3C38),
+                  ),
                 ),
               ),
               const SizedBox(height: 12),
@@ -101,11 +85,11 @@ class _PlanPageState extends State<PlanPage> {
 
               const SizedBox(height: 24),
 
-              // 4. Sección: Próximas sesiones
+              // 4. Sección: Upcoming Sessions
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Próximas sesiones',
+                  'Upcoming Sessions',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -116,22 +100,22 @@ class _PlanPageState extends State<PlanPage> {
               const SizedBox(height: 12),
               _buildSessionCard(
                 name: 'Maria Rios',
-                time: 'Videollamada – 10:00 am',
+                time: 'Video call – 10:00 am',
                 imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
               ),
               _buildSessionCard(
                 name: 'Juan Rodriguez',
-                time: 'Videollamada – 12:00 pm',
+                time: 'Video call – 12:00 pm',
                 imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
               ),
 
               const SizedBox(height: 24),
 
-              // 5. Sección: Tus planes (Tareas / Rutinas)
+              // 5. Sección: Your Plans
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Tus planes',
+                  'Your Plans',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -173,7 +157,7 @@ class _PlanPageState extends State<PlanPage> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF4A3C38)),
               ),
               Text(
-                '$completedTasks de $totalTasks completadas',
+                '$completedTasks of $totalTasks completed',
                 style: const TextStyle(fontSize: 13, color: Colors.grey, fontWeight: FontWeight.w500),
               ),
             ],
