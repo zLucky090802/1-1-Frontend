@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import '../theme/app_colors.dart';
 
-/// Barra de navegación inferior flotante, tipo "pill", con 3 ítems.
-/// El ítem activo se muestra con un círculo oscuro de fondo (como en el
-/// diseño: Home activo).
 class FloatingBottomNav extends StatelessWidget {
   const FloatingBottomNav({
     super.key,
@@ -16,6 +13,7 @@ class FloatingBottomNav extends StatelessWidget {
 
   static const _items = [
     Icons.home_filled,
+    Icons.calendar_today_rounded, // Ícono para la pantalla de Plan/Agenda
     Icons.search,
     Icons.person_outline,
   ];
@@ -23,15 +21,15 @@ class FloatingBottomNav extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 28, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.surface,
         borderRadius: BorderRadius.circular(32),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.08),
-            blurRadius: 16,
-            offset: const Offset(0, 6),
+            color: Colors.black.withOpacity(0.12),
+            blurRadius: 20,
+            offset: const Offset(0, 8),
           ),
         ],
       ),
@@ -46,14 +44,11 @@ class FloatingBottomNav extends StatelessWidget {
               width: 44,
               height: 44,
               alignment: Alignment.center,
-              decoration: BoxDecoration(
-                color: isActive ? AppColors.primaryButton : Colors.transparent,
-                shape: BoxShape.circle,
-              ),
               child: Icon(
                 _items[index],
-                size: 22,
-                color: isActive ? Colors.white : AppColors.textPrimary,
+                // El ícono activo aumenta de tamaño y toma el color principal
+                size: isActive ? 26 : 22,
+                color: isActive ? AppColors.primaryButton : AppColors.textPrimary,
               ),
             ),
           );
