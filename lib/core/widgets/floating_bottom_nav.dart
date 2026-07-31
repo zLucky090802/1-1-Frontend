@@ -11,11 +11,13 @@ class FloatingBottomNav extends StatelessWidget {
   final int currentIndex;
   final ValueChanged<int> onTap;
 
+  // El orden de estos iconos corresponde 1 a 1 con la lista _screens de MainLayout
   static const _items = [
-    Icons.home_filled,
-    Icons.calendar_today_rounded, // Ícono para la pantalla de Plan/Agenda
-    Icons.search,
-    Icons.person_outline,
+    Icons.home_filled,                 // Índice 0: Home
+    Icons.calendar_today_rounded,      // Índice 1: Plan
+    Icons.chat_bubble_outline_rounded, // Índice 2: Chat
+    Icons.search,                      // Índice 3: Search
+    Icons.person_outline,              // Índice 4: Profile
   ];
 
   @override
@@ -46,7 +48,6 @@ class FloatingBottomNav extends StatelessWidget {
               alignment: Alignment.center,
               child: Icon(
                 _items[index],
-                // El ícono activo aumenta de tamaño y toma el color principal
                 size: isActive ? 26 : 22,
                 color: isActive ? AppColors.primaryButton : AppColors.textPrimary,
               ),

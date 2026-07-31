@@ -17,21 +17,24 @@ class _ChatListScreenState extends State<ChatListScreen> {
       'lastMessage': 'Hello!, i\'m exciting to meet you',
       'time': '12:00 PM',
       'unreadCount': 1,
-      'avatar': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+      'avatar':
+          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
     },
     {
       'name': 'Maria Rios',
       'lastMessage': 'Hello!, i\'m exciting to meet you',
       'time': '12:00 PM',
       'unreadCount': 1,
-      'avatar': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+      'avatar':
+          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
     },
     {
       'name': 'Maria Rios',
       'lastMessage': 'Hello!, i\'m exciting to meet you',
       'time': '12:00 PM',
       'unreadCount': 1,
-      'avatar': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+      'avatar':
+          'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
     },
   ];
 
@@ -64,7 +67,11 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       ],
                     ),
                     child: IconButton(
-                      icon: const Icon(Icons.arrow_back_ios_new, size: 18, color: textColor),
+                      icon: const Icon(
+                        Icons.arrow_back_ios_new,
+                        size: 18,
+                        color: textColor,
+                      ),
                       onPressed: () => Navigator.of(context).pop(),
                     ),
                   ),
@@ -103,10 +110,13 @@ class _ChatListScreenState extends State<ChatListScreen> {
                 ),
                 child: const TextField(
                   decoration: InputDecoration(
-                    icon: Icon(Icons.search, color: Colors.grey),
+                    icon: const Icon(Icons.search, color: Colors.grey),
                     hintText: 'Search',
-                    hintStyle: TextStyle(color: Colors.grey),
-                    border: InputBorder.none,
+                    hintStyle: const TextStyle(color: Colors.grey),
+                    border: InputBorder
+                        .none, // <- Esto elimina cualquier borde predeterminado
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
                   ),
                 ),
               ),
@@ -124,14 +134,18 @@ class _ChatListScreenState extends State<ChatListScreen> {
                     child: GestureDetector(
                       onTap: () => setState(() => _selectedTab = tab),
                       child: Container(
-                        margin: EdgeInsets.only(right: tab != 'Favorites' ? 8 : 0),
+                        margin: EdgeInsets.only(
+                          right: tab != 'Favorites' ? 8 : 0,
+                        ),
                         padding: const EdgeInsets.symmetric(vertical: 12),
                         alignment: Alignment.center,
                         decoration: BoxDecoration(
                           color: isSelected ? primaryColor : Colors.white,
                           borderRadius: BorderRadius.circular(30),
                           border: Border.all(
-                            color: isSelected ? primaryColor : Colors.grey.shade300,
+                            color: isSelected
+                                ? primaryColor
+                                : Colors.grey.shade300,
                           ),
                           boxShadow: [
                             if (!isSelected)
@@ -180,20 +194,30 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       ],
                     ),
                     child: ListTile(
-                      contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                      contentPadding: const EdgeInsets.symmetric(
+                        horizontal: 16,
+                        vertical: 8,
+                      ),
                       leading: CircleAvatar(
                         radius: 26,
                         backgroundImage: NetworkImage(chat['avatar']),
                       ),
                       title: Text(
                         chat['name'],
-                        style: const TextStyle(fontWeight: FontWeight.bold, color: textColor, fontSize: 16),
+                        style: const TextStyle(
+                          fontWeight: FontWeight.bold,
+                          color: textColor,
+                          fontSize: 16,
+                        ),
                       ),
                       subtitle: Padding(
                         padding: const EdgeInsets.only(top: 4),
                         child: Text(
                           chat['lastMessage'],
-                          style: TextStyle(color: Colors.grey.shade600, fontSize: 13),
+                          style: TextStyle(
+                            color: Colors.grey.shade600,
+                            fontSize: 13,
+                          ),
                           maxLines: 1,
                           overflow: TextOverflow.ellipsis,
                         ),
@@ -204,7 +228,10 @@ class _ChatListScreenState extends State<ChatListScreen> {
                         children: [
                           Text(
                             chat['time'],
-                            style: const TextStyle(fontSize: 11, color: Colors.grey),
+                            style: const TextStyle(
+                              fontSize: 11,
+                              color: Colors.grey,
+                            ),
                           ),
                           const SizedBox(height: 6),
                           Container(
@@ -215,7 +242,11 @@ class _ChatListScreenState extends State<ChatListScreen> {
                             ),
                             child: Text(
                               '${chat['unreadCount']}',
-                              style: const TextStyle(color: Colors.white, fontSize: 10, fontWeight: FontWeight.bold),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.bold,
+                              ),
                             ),
                           ),
                         ],
@@ -223,7 +254,9 @@ class _ChatListScreenState extends State<ChatListScreen> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => const ChatRoomScreen()),
+                          MaterialPageRoute(
+                            builder: (context) => const ChatRoomScreen(),
+                          ),
                         );
                       },
                     ),
