@@ -3,7 +3,7 @@ import '../../core/theme/app_colors.dart';
 import '../../core/widgets/category_chip.dart';
 import '../../core/widgets/content_action_card.dart';
 import '../../core/widgets/floating_bottom_nav.dart';
-
+import '../notifications/screen/notifications_page.dart';
 
 /// Pantalla principal (Home) del cliente.
 ///
@@ -23,7 +23,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   // TODO: reemplazar por tu fuente de datos real (provider / API).
   final bool _hasAdvisors = false;
-  final List<String> _categories = const ['marketing', 'marketing', 'marketing', 'marketing'];
+  final List<String> _categories = const [
+    'marketing',
+    'marketing',
+    'marketing',
+    'marketing',
+  ];
 
   static const double _breakpoint = 600;
   static const double _cardMaxWidth = 440;
@@ -58,7 +63,10 @@ class _HomeScreenState extends State<HomeScreen> {
                               foregroundColor: AppColors.textSecondary,
                               padding: EdgeInsets.zero,
                             ),
-                            child: const Text('see all', style: TextStyle(fontSize: 12)),
+                            child: const Text(
+                              'see all',
+                              style: TextStyle(fontSize: 12),
+                            ),
                           ),
                         ],
                       ),
@@ -67,7 +75,8 @@ class _HomeScreenState extends State<HomeScreen> {
                         child: ListView.separated(
                           scrollDirection: Axis.horizontal,
                           itemCount: _categories.length,
-                          separatorBuilder: (_, __) => const SizedBox(width: 10),
+                          separatorBuilder: (_, __) =>
+                              const SizedBox(width: 10),
                           itemBuilder: (context, index) =>
                               CategoryChip(label: _categories[index]),
                         ),
@@ -93,7 +102,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                       Text(
                         'Top Advisors',
-                        style: Theme.of(context).textTheme.headlineSmall?.copyWith(fontSize: 18),
+                        style: Theme.of(
+                          context,
+                        ).textTheme.headlineSmall?.copyWith(fontSize: 18),
                       ),
                       const SizedBox(height: 14),
 
@@ -121,7 +132,6 @@ class _HomeScreenState extends State<HomeScreen> {
               ),
 
               // Bottom nav flotante.
-              
             ],
           );
 
@@ -173,7 +183,13 @@ class _HomeHeader extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                const Text('Hello,', style: TextStyle(fontSize: 13, color: AppColors.textSecondary)),
+                const Text(
+                  'Hello,',
+                  style: TextStyle(
+                    fontSize: 13,
+                    color: AppColors.textSecondary,
+                  ),
+                ),
                 Text(
                   userName,
                   style: const TextStyle(
@@ -186,7 +202,16 @@ class _HomeHeader extends StatelessWidget {
             ),
           ],
         ),
-        Container(
+        GestureDetector(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const NotificationsPage(),
+              ),
+            );
+          },
+          child: Container(
           width: 46,
           height: 46,
           decoration: BoxDecoration(
@@ -200,8 +225,13 @@ class _HomeHeader extends StatelessWidget {
               ),
             ],
           ),
-          child: const Icon(Icons.notifications_none, color: AppColors.textPrimary),
+          child: const Icon(
+            Icons.notifications_none,
+            color: AppColors.textPrimary,
+          ),
         ),
+        ),
+        
       ],
     );
   }

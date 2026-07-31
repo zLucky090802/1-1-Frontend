@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../widgets/plan_calendar_header.dart'; // Importa el componente del calendario
+import '../widgets/plan_calendar_header.dart';
 
 class PlanPage extends StatefulWidget {
   const PlanPage({super.key});
@@ -9,9 +9,8 @@ class PlanPage extends StatefulWidget {
 }
 
 class _PlanPageState extends State<PlanPage> {
-  // Fecha base seleccionada actualmente (comienza hoy)
-  DateTime _currentBaseDate = DateTime(2026, 7, 5); // O DateTime.now() según prefieras
-  int _selectedDayIndex = 4; // Por defecto el índice 4 (viernes dentro de la semana generada)
+  DateTime _currentBaseDate = DateTime(2026, 7, 5);
+  int _selectedDayIndex = 4;
 
   List<DateTime> _weekDays = [];
 
@@ -21,14 +20,11 @@ class _PlanPageState extends State<PlanPage> {
     _updateWeekDays();
   }
 
-  // Genera los 7 días de la semana basados en la fecha base
   void _updateWeekDays() {
-    // Encontramos el inicio de la semana (Lunes)
     final monday = _currentBaseDate.subtract(Duration(days: _currentBaseDate.weekday - 1));
     _weekDays = List.generate(7, (index) => monday.add(Duration(days: index)));
   }
 
-  // Cambiar de semana con las flechas laterales
   void _navigateWeeks(int direction) {
     setState(() {
       _currentBaseDate = _currentBaseDate.add(Duration(days: direction * 7));
@@ -36,7 +32,6 @@ class _PlanPageState extends State<PlanPage> {
     });
   }
 
-  // Estado de tareas de ejemplo
   final List<Map<String, dynamic>> _tasks = [
     {'title': 'Guia nutricion', 'advisor': 'De Maria Rios', 'completed': false},
     {'title': 'Caminar 30 min', 'advisor': 'De Maria Rios', 'completed': true},
@@ -52,7 +47,7 @@ class _PlanPageState extends State<PlanPage> {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // 1. Calendario superior modular y funcional
+              // 1. Calendario superior modular
               PlanCalendarHeader(
                 currentDate: _currentBaseDate,
                 weekDays: _weekDays,
@@ -66,9 +61,14 @@ class _PlanPageState extends State<PlanPage> {
                 onNavigateWeeks: _navigateWeeks,
               ),
 
+              const SizedBox(height: 20),
+
+              // 2. Tarjeta "This week" colocada de primera
+              _buildWeeklyProgressCard(),
+
               const SizedBox(height: 24),
 
-              // 2. Sección: Mis Asesores
+              // 3. Sección: Mis Asesores
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Row(
@@ -101,7 +101,7 @@ class _PlanPageState extends State<PlanPage> {
 
               const SizedBox(height: 24),
 
-              // 3. Sección: Próximas sesiones
+              // 4. Sección: Próximas sesiones
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
@@ -127,7 +127,7 @@ class _PlanPageState extends State<PlanPage> {
 
               const SizedBox(height: 24),
 
-              // 4. Sección: Tus planes (Tareas / Rutinas)
+              // 5. Sección: Tus planes (Tareas / Rutinas)
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
@@ -141,13 +141,69 @@ class _PlanPageState extends State<PlanPage> {
               ),
               const SizedBox(height: 12),
               ..._tasks.map((task) => _buildTaskCard(task)),
-
-              const SizedBox(height: 16),
-
-              // 5. Progreso semanal
-              _buildWeeklyProgressCard(),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildWeeklyProgressCard() {
+    final int totalTasks = _tasks.length;
+    final int completedTasks = _tasks.where((task) => task['completed'] == true).length;
+
+    return Container(
+      margin: const EdgeInsets.symmetric(horizontal: 20),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        boxShadow: [
+          BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10, offset: const Offset(0, 4)),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              const Text(
+                'This week',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF4A3C38)),
+              ),
+              Text(
+                '$completedTasks de $totalTasks completadas',
+                style: const TextStyle(fontSize: 13, color: Colors.grey, fontWeight: FontWeight.w500),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: List.generate(totalTasks > 0 ? totalTasks : 1, (index) {
+              final isActive = index < completedTasks;
+              return _progressSegment(isActive);
+            }),
+          ),
+          const SizedBox(height: 8),
+          const Text(
+            'Your advisor sees this progress.',
+            style: TextStyle(fontSize: 12, color: Colors.grey),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _progressSegment(bool active) {
+    return Expanded(
+      child: Container(
+        height: 6,
+        margin: const EdgeInsets.symmetric(horizontal: 2),
+        decoration: BoxDecoration(
+          color: active ? Colors.green : Colors.grey.shade300,
+          borderRadius: BorderRadius.circular(3),
         ),
       ),
     );
@@ -275,58 +331,6 @@ class _PlanPageState extends State<PlanPage> {
             ),
           ),
         ],
-      ),
-    );
-  }
-
-  Widget _buildWeeklyProgressCard() {
-    return Container(
-      margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(16),
-        boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 10, offset: const Offset(0, 4)),
-        ],
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Text('This week', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF4A3C38))),
-              Text('3 de 5 completadas', style: TextStyle(fontSize: 13, color: Colors.grey, fontWeight: FontWeight.w500)),
-            ],
-          ),
-          const SizedBox(height: 12),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              _progressSegment(true),
-              _progressSegment(true),
-              _progressSegment(true),
-              _progressSegment(false),
-              _progressSegment(false),
-            ],
-          ),
-          const SizedBox(height: 8),
-          const Text('Your advisor sees this progress.', style: TextStyle(fontSize: 12, color: Colors.grey)),
-        ],
-      ),
-    );
-  }
-
-  Widget _progressSegment(bool active) {
-    return Expanded(
-      child: Container(
-        height: 6,
-        margin: const EdgeInsets.symmetric(horizontal: 2),
-        decoration: BoxDecoration(
-          color: active ? Colors.green : Colors.grey.shade300,
-          borderRadius: BorderRadius.circular(3),
-        ),
       ),
     );
   }
