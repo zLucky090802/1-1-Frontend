@@ -8,8 +8,13 @@ import '../widgets/full_calendar_modal.dart';
 
 class AdvisorProfileScreen extends StatelessWidget {
   final Advisor? advisor;
+  final bool isHired; // Si ya está contratado, ocultamos la barra de reservas y los slots de agenda
 
-  const AdvisorProfileScreen({super.key, this.advisor});
+  const AdvisorProfileScreen({
+    super.key,
+    this.advisor,
+    this.isHired = false,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,7 +49,6 @@ class AdvisorProfileScreen extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        // Fondo con el degradado requerido
         decoration: const BoxDecoration(
           gradient: LinearGradient(
             begin: Alignment.topCenter,
@@ -58,7 +62,8 @@ class AdvisorProfileScreen extends StatelessWidget {
         child: Stack(
           children: [
             SingleChildScrollView(
-              padding: const EdgeInsets.fromLTRB(20.0, 60.0, 20.0, 140.0),
+              // Ajustamos el padding inferior dinámicamente: si ya está contratado, no dejamos espacio para la barra fija
+              padding: EdgeInsets.fromLTRB(20.0, 60.0, 20.0, isHired ? 40.0 : 140.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -107,7 +112,7 @@ class AdvisorProfileScreen extends StatelessWidget {
                           decoration: BoxDecoration(
                             shape: BoxShape.circle,
                             border: Border.all(
-                              color: Color(0xFFB29072),
+                              color: const Color(0xFFB29072),
                               width: 1,
                             ),
                             boxShadow: [
@@ -197,94 +202,117 @@ class AdvisorProfileScreen extends StatelessWidget {
                   const SizedBox(height: 2),
                   Text('What client say', style: TextStyle(fontSize: 13, color: textColor.withOpacity(0.5))),
                   const SizedBox(height: 12),
-                  SizedBox(
-                    height: 140,
-                    child: ListView.builder(
-                      scrollDirection: Axis.horizontal,
-                      itemCount: currentAdvisor.reviews.length,
-                      itemBuilder: (context, index) {
-                        final review = currentAdvisor.reviews[index];
-                        return Padding(
-                          padding: const EdgeInsets.only(right: 12.0),
-                          child: ReviewCard(
-                            clientName: review.clientName,
-                            avatarUrl: review.clientAvatar,
-                            comment: review.comment,
-                            primaryColor: const Color(0xFFE29547),
-                          ),
-                        );
-                      },
-                    ),
-                  ),
-                  const SizedBox(height: 12),
-                  const Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'View All Reviews',
-                      style: TextStyle(color: primaryColor, fontWeight: FontWeight.w600, fontSize: 13, decoration: TextDecoration.underline),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
                   
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const Text('Next Available Slot', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor)),
-                      GestureDetector(
-                        onTap: () => _showFullCalendarModal(context, primaryColor, textColor),
-                        child: const Text(
-                          'See All',
-                          style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold, fontSize: 13, decoration: TextDecoration.underline),
+                  // Validación si la lista de reviews está vacía
+                  if (currentAdvisor.reviews.isEmpty)
+                    Container(
+                      height: 140,
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withOpacity(0.4),
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                      child: Text(
+                        'No reviews yet.',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: textColor.withOpacity(0.6),
                         ),
                       ),
-                    ],
-                  ),
-                  const SizedBox(height: 12),
+                    )
+                  else ...[
+                    SizedBox(
+                      height: 140,
+                      child: ListView.builder(
+                        scrollDirection: Axis.horizontal,
+                        itemCount: currentAdvisor.reviews.length,
+                        itemBuilder: (context, index) {
+                          final review = currentAdvisor.reviews[index];
+                          return Padding(
+                            padding: const EdgeInsets.only(right: 12.0),
+                            child: ReviewCard(
+                              clientName: review.clientName,
+                              avatarUrl: review.clientAvatar,
+                              comment: review.comment,
+                              primaryColor: const Color(0xFFE29547),
+                            ),
+                          );
+                        },
+                      ),
+                    ),
+                    const SizedBox(height: 12),
+                    const Align(
+                      alignment: Alignment.centerLeft,
+                      child: Text(
+                        'View All Reviews',
+                        style: TextStyle(color: primaryColor, fontWeight: FontWeight.w600, fontSize: 13, decoration: TextDecoration.underline),
+                      ),
+                    ),
+                  ],
                   
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: Row(
+                  // Se oculta la selección de fechas y horarios si el asesor ya está contratado
+                  if (!isHired) ...[
+                    const SizedBox(height: 24),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        DayItem(day: 'Sun', date: '28', isSelected: false, isAvailable: false, textColor: textColor),
-                        DayItem(day: 'Mon', date: '20', isSelected: false, isAvailable: true, textColor: textColor),
-                        DayItem(day: 'Tue', date: '20', isSelected: false, isAvailable: false, textColor: textColor),
-                        DayItem(day: 'Wed', date: '21', isSelected: true, isAvailable: true, activeColor: primaryColor, textColor: textColor),
-                        DayItem(day: 'Thu', date: '19', isSelected: false, isAvailable: true, textColor: textColor),
-                        DayItem(day: 'Fri', date: '16', isSelected: false, isAvailable: false, textColor: textColor),
-                        DayItem(day: 'Sat', date: '17', isSelected: false, isAvailable: true, textColor: textColor),
+                        const Text('Next Available Slot', style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: textColor)),
+                        GestureDetector(
+                          onTap: () => _showFullCalendarModal(context, primaryColor, textColor),
+                          child: const Text(
+                            'See All',
+                            style: TextStyle(color: primaryColor, fontWeight: FontWeight.bold, fontSize: 13, decoration: TextDecoration.underline),
+                          ),
+                        ),
                       ],
                     ),
-                  ),
-
-                  const SizedBox(height: 16),
-                  Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-                    decoration: BoxDecoration(
-                      border: Border.all(color: primaryColor.withOpacity(0.4)),
-                      borderRadius: BorderRadius.circular(30),
+                    const SizedBox(height: 12),
+                    SingleChildScrollView(
+                      scrollDirection: Axis.horizontal,
+                      child: Row(
+                        children: [
+                          DayItem(day: 'Sun', date: '28', isSelected: false, isAvailable: false, textColor: textColor),
+                          DayItem(day: 'Mon', date: '20', isSelected: false, isAvailable: true, textColor: textColor),
+                          DayItem(day: 'Tue', date: '20', isSelected: false, isAvailable: false, textColor: textColor),
+                          DayItem(day: 'Wed', date: '21', isSelected: true, isAvailable: true, activeColor: primaryColor, textColor: textColor),
+                          DayItem(day: 'Thu', date: '19', isSelected: false, isAvailable: true, textColor: textColor),
+                          DayItem(day: 'Fri', date: '16', isSelected: false, isAvailable: false, textColor: textColor),
+                          DayItem(day: 'Sat', date: '17', isSelected: false, isAvailable: true, textColor: textColor),
+                        ],
+                      ),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        const Icon(Icons.access_time, size: 16, color: primaryColor),
-                        const SizedBox(width: 8),
-                        Text('Wed, Oct 29 - 10:00 AM', style: TextStyle(color: textColor, fontWeight: FontWeight.w500, fontSize: 13)),
-                      ],
+                    const SizedBox(height: 16),
+                    Container(
+                      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+                      decoration: BoxDecoration(
+                        border: Border.all(color: primaryColor.withOpacity(0.4)),
+                        borderRadius: BorderRadius.circular(30),
+                      ),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          const Icon(Icons.access_time, size: 16, color: primaryColor),
+                          const SizedBox(width: 8),
+                          Text('Wed, Oct 29 - 10:00 AM', style: TextStyle(color: textColor, fontWeight: FontWeight.w500, fontSize: 13)),
+                        ],
+                      ),
                     ),
-                  ),
+                  ],
                 ],
               ),
             ),
             
-            // Barra Inferior Fija de Reservas con fondo translúcido para que no corte el degradado bruscamente
-            StickyBookingBar(
-              price: currentAdvisor.price,
-              durationMinutes: currentAdvisor.durationMinutes,
-              primaryColor: primaryColor,
-              textColor: textColor,
-              backgroundColor: const Color(0xFFF9F8F4).withOpacity(0.9), // Color translúcido adaptado al fondo
-              onBookPressed: () {},
-            ),
+            // La barra inferior fija solo se muestra si NO está contratado
+            if (!isHired)
+              StickyBookingBar(
+                price: currentAdvisor.price,
+                durationMinutes: currentAdvisor.durationMinutes,
+                primaryColor: primaryColor,
+                textColor: textColor,
+                backgroundColor: const Color(0xFFF9F8F4).withOpacity(0.9),
+                onBookPressed: () {},
+              ),
           ],
         ),
       ),

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import '../widgets/plan_calendar_header.dart';
+import '../../advisors/models/advisor_model.dart';
+import '../../advisors/screens/advisor_profile_screen.dart';
 
 class PlanPage extends StatefulWidget {
   const PlanPage({super.key});
@@ -33,8 +35,8 @@ class _PlanPageState extends State<PlanPage> {
   }
 
   final List<Map<String, dynamic>> _tasks = [
-    {'title': 'Nutrition Guide', 'advisor': 'By Maria Rios', 'completed': false},
-    {'title': 'Walk 30 min', 'advisor': 'By Maria Rios', 'completed': true},
+    {'title': 'Guia nutricion', 'advisor': 'De Maria Rios', 'completed': false},
+    {'title': 'Caminar 30 min', 'advisor': 'De Maria Rios', 'completed': true},
   ];
 
   @override
@@ -68,16 +70,32 @@ class _PlanPageState extends State<PlanPage> {
 
               const SizedBox(height: 24),
 
-              // 3. Sección: My Advisors (Sin el "see all")
-              const Padding(
-                padding: EdgeInsets.symmetric(horizontal: 20),
-                child: Text(
-                  'My Advisors',
-                  style: TextStyle(
-                    fontSize: 18,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xFF4A3C38),
-                  ),
+              // 3. Sección: Mis Asesores
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    const Text(
+                      'Mis asesores',
+                      style: TextStyle(
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                        color: Color(0xFF4A3C38),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () {},
+                      child: const Text(
+                        'see all',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: Color(0xFFB29072),
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ),
               const SizedBox(height: 12),
@@ -85,11 +103,11 @@ class _PlanPageState extends State<PlanPage> {
 
               const SizedBox(height: 24),
 
-              // 4. Sección: Upcoming Sessions
+              // 4. Sección: Próximas sesiones
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Upcoming Sessions',
+                  'Próximas sesiones',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -100,22 +118,22 @@ class _PlanPageState extends State<PlanPage> {
               const SizedBox(height: 12),
               _buildSessionCard(
                 name: 'Maria Rios',
-                time: 'Video call – 10:00 am',
+                time: 'Videollamada – 10:00 am',
                 imageUrl: 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
               ),
               _buildSessionCard(
                 name: 'Juan Rodriguez',
-                time: 'Video call – 12:00 pm',
+                time: 'Videollamada – 12:00 pm',
                 imageUrl: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
               ),
 
               const SizedBox(height: 24),
 
-              // 5. Sección: Your Plans
+              // 5. Sección: Tus planes (Tareas / Rutinas)
               const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 20),
                 child: Text(
-                  'Your Plans',
+                  'Tus planes',
                   style: TextStyle(
                     fontSize: 18,
                     fontWeight: FontWeight.bold,
@@ -157,7 +175,7 @@ class _PlanPageState extends State<PlanPage> {
                 style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold, color: Color(0xFF4A3C38)),
               ),
               Text(
-                '$completedTasks of $totalTasks completed',
+                '$completedTasks de $totalTasks completadas',
                 style: const TextStyle(fontSize: 13, color: Colors.grey, fontWeight: FontWeight.w500),
               ),
             ],
@@ -195,9 +213,21 @@ class _PlanPageState extends State<PlanPage> {
 
   Widget _buildAdvisorsRow() {
     final advisors = [
-      {'name': 'Maria', 'img': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150'},
-      {'name': 'Juan', 'img': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150'},
-      {'name': 'Ana', 'img': 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150'},
+      {
+        'name': 'Maria Rios',
+        'role': 'Mindset Coach',
+        'img': 'https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150',
+      },
+      {
+        'name': 'Juan Rodriguez',
+        'role': 'Fitness Expert',
+        'img': 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150',
+      },
+      {
+        'name': 'Ana Gomez',
+        'role': 'Nutritionist',
+        'img': 'https://images.unsplash.com/photo-1517841905240-472988babdf9?w=150',
+      },
     ];
 
     return SizedBox(
@@ -207,21 +237,49 @@ class _PlanPageState extends State<PlanPage> {
         padding: const EdgeInsets.symmetric(horizontal: 16),
         itemCount: advisors.length,
         itemBuilder: (context, index) {
-          final advisor = advisors[index];
-          return Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8),
-            child: Column(
-              children: [
-                CircleAvatar(
-                  radius: 26,
-                  backgroundImage: NetworkImage(advisor['img']!),
+          final advisorData = advisors[index];
+          return GestureDetector(
+            onTap: () {
+              final advisorObj = Advisor(
+                name: advisorData['name']!,
+                role: advisorData['role']!,
+                rating: 4.8,
+                reviewCount: 95,
+                avatarUrl: advisorData['img']!,
+                about: 'Specialized expert dedicated to helping you achieve your personal goals and maintain a balanced routine.',
+                specialities: [advisorData['role']!, 'Consulting', 'Wellness'],
+                reviews: [],
+                price: 120,
+                durationMinutes: 45,
+              );
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  // Como estos asesores aparecen en "Mis asesores" desde la pantalla de plan, 
+                  // se pasa isHired: true para ocultar la barra de precios y de reserva.
+                  builder: (context) => AdvisorProfileScreen(
+                    advisor: advisorObj,
+                    isHired: true,
+                  ),
                 ),
-                const SizedBox(height: 4),
-                Text(
-                  advisor['name']!,
-                  style: const TextStyle(fontSize: 12, color: Color(0xFF4A3C38), fontWeight: FontWeight.w500),
-                ),
-              ],
+              );
+            },
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: Column(
+                children: [
+                  CircleAvatar(
+                    radius: 26,
+                    backgroundImage: NetworkImage(advisorData['img']!),
+                  ),
+                  const SizedBox(height: 4),
+                  Text(
+                    advisorData['name']!.split(' ').first,
+                    style: const TextStyle(fontSize: 12, color: Color(0xFF4A3C38), fontWeight: FontWeight.w500),
+                  ),
+                ],
+              ),
             ),
           );
         },
