@@ -5,6 +5,7 @@ import '../screen/language_screen.dart';
 import '../screen/history_screen.dart';
 import '../screen/currencies_screen.dart';
 import '../screen/preferences_screen.dart';
+import '../screen/edit_profile_screen.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
@@ -108,23 +109,36 @@ class ProfileScreen extends StatelessWidget {
                         style: TextStyle(fontSize: 14, color: Colors.grey),
                       ),
                       const SizedBox(height: 16),
-                      SizedBox(
-                        width: 180,
-                        height: 40,
-                        child: ElevatedButton.icon(
-                          onPressed: () {},
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: const Color(0xFFF3C7B7),
-                            foregroundColor: const Color(0xFF4A3C38),
-                            elevation: 0,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => const EditProfileScreen(),
                             ),
-                          ),
-                          icon: const Icon(Icons.edit, size: 16),
-                          label: const Text(
-                            'Edit Profile',
-                            style: TextStyle(fontWeight: FontWeight.w600),
+                          );
+                        },
+                        child: SizedBox(
+                          width: 180,
+                          height: 40,
+                          child: ElevatedButton.icon(
+                            onPressed: () {
+                              Navigator.push(context, MaterialPageRoute(builder: (context)=> const EditProfileScreen()));
+                            },
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: const Color(0xFFF3C7B7),
+                              foregroundColor: const Color(0xFF4A3C38),
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                            ),
+
+                            icon: const Icon(Icons.edit, size: 16),
+                            label: const Text(
+                              'Edit Profile',
+                              style: TextStyle(fontWeight: FontWeight.w600),
+                            ),
                           ),
                         ),
                       ),
@@ -199,7 +213,7 @@ class ProfileScreen extends StatelessWidget {
                         );
                       },
                     ),
-                   
+
                     _ProfileMenuItem(
                       icon: Icons.info_outline,
                       title: 'Legal & Policies',
