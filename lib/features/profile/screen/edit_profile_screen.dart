@@ -1,6 +1,6 @@
+import 'package:advisersapp/features/profile/screen/eidt_username_screen.dart';
 import 'package:flutter/material.dart';
 import '../screen/edit_name_screen.dart';
-
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -144,7 +144,10 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               onTap: () {
                 Navigator.push(
                   context,
-                  MaterialPageRoute(builder: (context)=>const EditNameScreen(initialName: 'Daniel Espitia')),
+                  MaterialPageRoute(
+                    builder: (context) =>
+                        const EditNameScreen(initialName: 'Daniel Espitia'),
+                  ),
                 ); // Aquí navegas a la pantalla específica para editar el nombre
               },
             ),
@@ -154,7 +157,14 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               label: "Username",
               value: _username,
               onTap: () {
-                // Aquí navegas a la pantalla específica para editar el username
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const EditUsernameScreen(
+                      initialUsername: 'Daniel Espitia ',
+                    ),
+                  ),
+                ); // Aquí navegas a la pantalla específica para editar el username
               },
             ),
 
