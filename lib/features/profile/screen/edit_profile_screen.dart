@@ -1,6 +1,7 @@
 import 'package:advisersapp/features/profile/screen/eidt_username_screen.dart';
 import 'package:flutter/material.dart';
 import '../screen/edit_name_screen.dart';
+import '../screen/edit_date_of_birth.dart';
 
 class EditProfileScreen extends StatefulWidget {
   const EditProfileScreen({Key? key}) : super(key: key);
@@ -173,7 +174,12 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
               label: "Date of Birth",
               value: formattedDate,
               trailingIcon: Icons.calendar_today_outlined,
-              onTap: () => _selectDate(context),
+              onTap: () {
+                Navigator.push(
+                  context, 
+                  MaterialPageRoute(builder: (context) =>  EditDateOfBirthScreen(initialDate: DateTime(2002,08, 09)))
+                );
+              },
             ),
 
             // Fila: Gender
